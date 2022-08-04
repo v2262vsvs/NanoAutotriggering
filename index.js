@@ -49,7 +49,7 @@ async function sendMicrosoft(id, session) {
             throw new Error(`Error! status: ${response.status}`);
         }
         const result = await response.text();
-        console.log(result);
+        console.log(result, " id: ", id);
         if (result === "User ref not found."){
             console.log(id)
         }
@@ -82,7 +82,7 @@ async function sendBrainly(id, session, team_id) {
         //const result0 = await response0.text()
         const result = await response.text();
         //console.log(result0)
-        console.log(result);
+        console.log(result, " id: ", id);
         if (result === "User ref not found."){
             console.log(id)
         }
@@ -116,7 +116,7 @@ async function sendPandatron(id, session) {
         //const result0 = await response0.text()
         const result = await response.text();
         //console.log(result0)
-        console.log(result);
+        console.log(result, " id: ", id);
         if (result === "User ref not found."){
             console.log(id)
         }
@@ -251,7 +251,7 @@ setInterval(() => {
         const element = Data[index];
         
         if ((element.morninghours === date.getHours() && element.morningminutes === date.getMinutes())) {
-            console.log("here")
+            console.log("found the user")
             setTimeout(() => {
                 if (element.workspace == MicrosoftWorkspace) {
                     sendMicrosoft(element.id, element.morningsession)
@@ -264,11 +264,11 @@ setInterval(() => {
                 }
                 //run(element.id, element.workspace, element.session);
             }, wait * 2000);
-            wait += 1
+            wait += 2
         }
 
         if ((element.eveninghours === date.getHours() && element.eveningminutes === date.getMinutes())) {
-            console.log("here")
+            console.log("found the user")
             //const session = element.eveningsession
             setTimeout(() => {
                 if (element.workspace === MicrosoftWorkspace) {
@@ -282,7 +282,7 @@ setInterval(() => {
                 }
                 //run(element.id, element.workspace, element.session);
             }, wait * 2000);
-            wait += 1
+            wait += 2
         }
 
     }
