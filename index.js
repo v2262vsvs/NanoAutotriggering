@@ -8,6 +8,8 @@ const MicrosoftWorkspace = "teams-bot";
 const PandaWorspace = "pandacoachbot";
 const BrainlyWorkspace = "brainly";
 const CulturedBrainWorkspace = "culturedbrain";
+const HelsinkiCityWorkspace = "helsinkicityworkspace";
+
 
 const morningSession = "6200d57014d1b95a4c82dc68";
 const eveningSession = "61b65debfe32175adb317233";
@@ -18,6 +20,71 @@ const eveningSession = "61b65debfe32175adb317233";
 ////////     channel_id(ssessionid)
 //shared_channel=teams-bot
 //team_id=teams_abc
+
+async function sendHelsinkiCity(id, session, team_id) {
+  try {
+    const res2 = await fetch(
+      `https://www.fibofy.com/panda-sharedchannels/checkUserPrivateChannel/${id}?shared_channel=helsinkicityworkspace&team_id=${team_id}&session_type=Nano&bypass=cc4d9d62ad12bb29cce8663cffdaf6e9026961cc81b8dfcf10d4683087403180`,
+      {
+        headers: {
+          accept: "*/*",
+          "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,uk;q=0.6",
+          "sec-ch-ua":
+            '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": '"macOS"',
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin",
+          "x-requested-with": "XMLHttpRequest",
+        },
+        referrer: "https://www.fibofy.com/panda/admin/",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body: null,
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      }
+    );
+
+    const result1 = await res2.json();
+    console.log(result1.data.body.channel.id);
+    const channel_id = result1.data.body.channel.id;
+    var response = await fetch(
+      `https://www.fibofy.com/panda-sharedchannels/startNewConversation/${id}/${channel_id}/${session}?shared_channel=helsinkicityworkspace&team_id=${team_id}&session_type=Nano`,
+      {
+        headers: {
+          accept: "*/*",
+          authorization:
+            "8a4bfadf32bfb287126fd9ef9ebac259ca32f132bd5cb4f8391edf9a69a06758",
+          "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,uk;q=0.6",
+          "sec-ch-ua":
+            '"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": '"macOS"',
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-origin",
+          "x-requested-with": "XMLHttpRequest",
+        },
+        referrer: "https://www.fibofy.com/panda/admin/",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body: null,
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      }
+    );
+    const result = await response.text();
+    console.log(result, " id: ", id);
+    if (result === "User ref not found.") {
+      console.log(id);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 async function sendMicrosoft(id, session) {
   try {
     const response = await fetch(
@@ -85,7 +152,7 @@ async function sendBrainly(id, session, team_id) {
     );
 
     const result1 = await res2.json();
-    console.log(result1.data.body.channel.id);
+    console.log('result1.data.body.channel.id',result1.data.body.channel.id);
     const channel_id = result1.data.body.channel.id;
     var response = await fetch(
       `https://www.fibofy.com/panda-sharedchannels/startNewConversation/${id}/${channel_id}/${session}?shared_channel=brainly&team_id=${team_id}&session_type=Nano`,
@@ -408,6 +475,9 @@ setInterval(() => {
         if (element.workspace == BrainlyWorkspace) {
           sendBrainly(element.id, element.morningsession, element.team_id);
         }
+        if (element.workspace == HelsinkiCityWorkspace) {
+          sendHelsinkiCity(element.id, element.morningsession, element.team_id);
+        }
         if (element.workspace === CulturedBrainWorkspace) {
           sendCulturedBrain(
             element.id,
@@ -435,6 +505,9 @@ setInterval(() => {
         }
         if (element.workspace === BrainlyWorkspace) {
           sendBrainly(element.id, element.eveningsession, element.team_id);
+        }
+        if (element.workspace === HelsinkiCityWorkspace) {
+          sendHelsinkiCity(element.id, element.eveningsession, element.team_id);
         }
         if (element.workspace === CulturedBrainWorkspace) {
           sendCulturedBrain(
